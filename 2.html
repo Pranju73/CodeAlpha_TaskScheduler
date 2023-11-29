@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Scheduler</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background: whitesmoke;
+    color:black;
+}
+        #taskForm {
+            max-width: 400px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 30px;
+            box-shadow: 2px 2px 2px black;
+        }
+
+        #tasks {
+            max-width: 600px;
+            margin: 20px auto;
+        }
+
+        .task {
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+            padding: 10px;
+        }
+        #formm{
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+        button{
+            border-radius: 20px;
+            background-color: black;
+            color: white;
+            width: 100px;
+            height: 30px;
+         }
+     #taskList{
+        background: white;
+     } 
+    </style>
+</head>
+
+<body>
+    <div id="taskForm">
+       <center> <h2>Add Task</h2></center>
+        <form id="formm">
+            <label for="taskName">Task Name:</label>
+            <input type="text" id="taskName" required>
+            <br><br>
+
+            <label for="deadline">Deadline:</label>
+            <input type="datetime-local" id="deadline" required>
+            <br><br>
+
+            <button type="button" onclick="addTask()">Add Task</button><br><br>
+        </form>
+    </div>
+
+    <div id="tasks">
+        <h2>Tasks</h2>
+        <div id="taskList"></div>
+    </div>
+
+    <script>
+        let tasks = [];
+
+        function addTask() {
+            const taskName = document.getElementById('taskName').value;
+            const deadline = document.getElementById('deadline').value;
+
+            if (!taskName || !deadline) {
+                alert('All fields are required.');
+                return;
+            }
+
+            const newTask = {
+                taskName,
+                deadline,
+            };
+
+            tasks.push(newTask);
+            displayTasks();
+            setReminder(newTask);
+            clearForm();
+        }
+
+        function displayTasks() {
+            const taskList = document.getElementById('taskList');
+            taskList.innerHTML = '';
+
+            tasks.forEach((task, index) => {
+                const taskDiv = document.createElement('div');
+                taskDiv.classList.add('task');
+                taskDiv.innerHTML = `
+                    <strong>${task.taskName}</strong><br>
+                    Deadline: ${task.deadline}<br>
+                `;
+                taskList.appendChild(taskDiv);
+            });
+        }
+
+        function setReminder(task) {
+            console.log(`Reminder: Task "${task.taskName}" is due on ${task.deadline}`)
+            
+        }
+        
+
+        function clearForm() {
+            document.getElementById('formm').reset();
+        }
+        
+    </script>
+</body>
+</html>
